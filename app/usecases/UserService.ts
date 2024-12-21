@@ -1,31 +1,23 @@
-// app/usecases/UserService.ts
-import { UserDAO } from '../../domain/dao/UserDAO';
-import { User } from '../../domain/dao/User';
 
-export class UserService {
-  private userDAO: UserDAO;
 
-  constructor(userDAO: UserDAO) {
-    this.userDAO = userDAO;
+import { GetUserDto } from '../../domain/dto/user.dto';
+
+export interface UserService {
+  getAllUser(): Promise<GetUserDto[]>;
+}
+
+export interface UserRepository {
+  getAllUsers(): Promise<GetUserDto[]>;
+}
+
+export class UserServiceImpl implements UserService {
+  private repository: UserRepository;
+
+  constructor(repository: UserRepository) {
+    this.repository = repository;
   }
 
-  async getUserById(id: string): Promise<User | null> {
-    return this.userDAO.getUserById(id);
-  }
-
-  async getAllUsers(): Promise<User[]> {
-    return this.userDAO.getAllUsers();
-  }
-
-  async createUser(user: User): Promise<User> {
-    return this.userDAO.createUser(user);
-  }
-
-  async updateUser(id: string, user: User): Promise<User | null> {
-    return this.userDAO.updateUser(id, user);
-  }
-
-  async deleteUser(id: string): Promise<boolean> {
-    return this.userDAO.deleteUser(id);
+  async getAllUser(): Promise<GetUserDto[]> {
+    return this.repository.getAllUsers();
   }
 }

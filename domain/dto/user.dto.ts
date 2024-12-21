@@ -7,8 +7,8 @@ export type payload = {
     id: string;
 };
 
-export class UserRequest {
+export interface GetUserDto {
+    id: number;
     name: string;
     email: string;
-    password: string;
-}
+  }
