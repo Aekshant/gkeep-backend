@@ -1,16 +1,33 @@
 // infra/UserRepository.ts
-import { GetUserDto } from '../../domain/dto/user.dto';
-
+import { GetUserDto, UserPayload } from '../../domain/dto/user.dto';
+import { Repository } from 'typeorm';
+import { AppDataSource } from './config/data-source';
+import { User } from '../../domain/models/User';
 export interface UserRepository {
   getAllUsers(): Promise<GetUserDto[]>;
+  createUser( reqBody : UserPayload ): Promise<void>;
 }
 
 export class UserRepositoryImpl implements UserRepository {
+  private readonly repository: Repository<User>;
+  constructor() {
+    this.repository = AppDataSource.getRepository(User);
+  }
+  
   async getAllUsers(): Promise<GetUserDto[]> {
-    // Replace this mock data with actual database calls
-    return [
-      { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
-      { id: 2, name: 'Jane Doe', email: 'jane.doe@example.com' },
-    ];
+    const users = await this.repository.find();
+    return users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    }));
+  }
+
+  async createUser( reqBody : UserPayload ): Promise<void>{
+    const user = new User()
+    user.email = reqBody.email
+    user.name = reqBody.name
+    user.password = reqBody.password
+    await this.repository.save(user)
   }
 }

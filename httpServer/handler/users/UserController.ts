@@ -1,13 +1,15 @@
 // controllers/UserController.ts
 import { Request, Response } from "express";
-import { GetUserDto } from "../../../domain/dto/user.dto";
+import { GetUserDto, UserPayload, UserResponse } from "../../../domain/dto/user.dto";
 
 export interface UserController {
   getAllUserData(req: Request, res: Response): Promise<void>;
+  createUserData(req: Request, res: Response): Promise<void>;
 }
 
 export interface UserService {
   getAllUser(): Promise<GetUserDto[]>;
+  createUser( reqBody : UserPayload ): Promise<UserResponse>;
 }
 
 export class UserControllerImpl implements UserController {
@@ -28,6 +30,22 @@ export class UserControllerImpl implements UserController {
     } catch (error) {
       res.status(500).json({
         data: null,
+        err: error.message,
+        success: false
+      });
+    }
+  }
+
+  async createUserData(req: Request, res: Response): Promise<void> {
+    try {
+      const reqBody : UserPayload = req.body
+      const data = await this.service.createUser(reqBody);
+      res.status(200).json({
+        err: null,
+        ...data
+      });
+    } catch (error) {
+      res.status(500).json({
         err: error.message,
         success: false
       });

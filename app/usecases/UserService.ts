@@ -1,13 +1,15 @@
 
 
-import { GetUserDto } from '../../domain/dto/user.dto';
+import { GetUserDto, UserPayload, UserResponse } from '../../domain/dto/user.dto';
 
 export interface UserService {
   getAllUser(): Promise<GetUserDto[]>;
+  createUser( reqBody : UserPayload ): Promise<UserResponse>;
 }
 
 export interface UserRepository {
   getAllUsers(): Promise<GetUserDto[]>;
+  createUser( reqBody : UserPayload ): Promise<void>;
 }
 
 export class UserServiceImpl implements UserService {
@@ -19,5 +21,10 @@ export class UserServiceImpl implements UserService {
 
   async getAllUser(): Promise<GetUserDto[]> {
     return this.repository.getAllUsers();
+  }
+
+  async createUser(reqBody : UserPayload): Promise<UserResponse> {
+    await this.repository.createUser(reqBody)
+    return { "success" : true, "message" : "Success" }
   }
 }

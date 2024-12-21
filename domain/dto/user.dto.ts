@@ -1,14 +1,16 @@
-export class UserResponse {
-    name: string;
-    email: string;
+export interface UserResponse{
+    success: boolean;
+    message: string;
 }
 
-export type payload = {
-    id: string;
+export interface UserPayload{
+    name: string;
+    email: string;
+    password : string;
 };
 
 export interface GetUserDto {
-    id: number;
+    id: string;
     name: string;
     email: string;
   }
