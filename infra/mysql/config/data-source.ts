@@ -1,7 +1,7 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
+import { User } from "../../../domain/models/User"
 
-const path = process.cwd()
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
@@ -11,7 +11,6 @@ export const AppDataSource = new DataSource({
     database: 'test',
     synchronize: true,
     logging: true,
-    entities: [path + '/domain/models/*.ts'],
-    migrations: [path + '/domain/migration/*.ts'],
+    entities: [User],
     subscribers: [],
 })

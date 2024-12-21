@@ -4,16 +4,15 @@
    "description": "",
    "main": "index.js",
    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "ts-node index.ts",
-      "typeorm": "typeorm-ts-node-commonjs"
+      "start": "cross-env NODE_ENV=development ts-node index.ts",
+      "start:prod": "cross-env NODE_ENV=production ts-node index.ts",
+      "typeorm": "typeorm-ts-node-commonjs",
+      "build": "tsc"
    },
    "keywords": [],
    "author": "",
    "license": "ISC",
    "dependencies": {
-      "@types/express": "^5.0.0",
-      "@types/node": "^22.10.2",
       "express": "^4.21.2",
       "mysql2": "^3.11.5",
       "pg": "^8.4.0",
@@ -21,8 +20,10 @@
       "typeorm": "0.3.20"
    },
    "devDependencies": {
-      "@types/node": "^16.11.10",
+      "@types/express": "^5.0.0",
+      "@types/node": "^18.19.68",
+      "cross-env": "^7.0.3",
       "ts-node": "^10.9.1",
-      "typescript": "^4.5.2"
+      "typescript": "^4.9.5"
    }
 }
